@@ -6,18 +6,37 @@ let textToBlur = ""
 // Search this DOM node for text to blur and blur the parent element if found.
 function processNode(node) {
     if (node.childNodes.length > 0) {
-        Array.from(node.childNodes).forEach(processNode)
+        Array.from(node.childNodes).forEach(processNode);
     }
-    if (node.nodeType === Node.TEXT_NODE &&
-        node.textContent !== null && node.textContent.trim().length > 0) {
-        const parent = node.parentElement
-        if (parent !== null && 
-            (parent.tagName === 'SCRIPT' || parent.style.filter === blurFilter)) {
+    if (
+        node.nodeType === Node.TEXT_NODE &&
+        node.textContent !== null &&
+        node.textContent.trim().length > 0
+    ) {
+        const parent = node.parentElement;
+        if (
+            parent !== null &&
+            (parent.tagName === "SCRIPT" || parent.style.filter === blurFilter)
+        ) {
             // Already blurred
-            return
+            return;
         }
         if (node.textContent.includes(textToBlur)) {
-            blurElement(parent)
+            const index = node.textContent.indexOf(textToBlur);
+            const textBefore = node.textContent.substring(0, index);
+            const textAfter = node.textContent.substring(index + textToBlur.length);
+
+            // Create a new span element
+            const newNode = document.createElement("span");
+            newNode.textContent = textToBlur;
+            newNode.style.filter = blurFilter;
+
+            // Replace the original text node with the new span element
+            const fragment = document.createDocumentFragment();
+            fragment.appendChild(document.createTextNode(textBefore));
+            fragment.appendChild(newNode);
+            fragment.appendChild(document.createTextNode(textAfter));
+            parent.replaceChild(fragment, node);
         }
     }
 }

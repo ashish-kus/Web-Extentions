@@ -25,9 +25,10 @@ const input = document.getElementById("item")
 chrome.storage.sync.get("item", (data) => {
     input.value = data.item || ""
 });
+
+// hello buddy
 input.addEventListener("change", (event) => {
     if (event.target instanceof HTMLInputElement) {
         void chrome.storage.sync.set({"item": event.target.value})
     }
 })
-
