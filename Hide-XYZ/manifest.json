@@ -1,8 +1,14 @@
 {
     "manifest_version": 3,
-    "name": "My Chrome Extension",
+    "name": "Hide xyz",
     "version": "0.1.0",
-    "description": "My first Chrome extension.",
+    "description": "Hide userdefined unwanted details.",
+    "browser_specific_settings": {
+	  "gecko": {
+	    "id": "hidexyz@ashish-kus.dev",
+	    "strict_min_version": "42.0"
+	  }
+	},
     "icons": {
         "16": "./icons/icon16.png",
         "19": "./icons/icon19.png",
@@ -24,7 +30,7 @@
       }
     ],
     "background": {
-      "service_worker": "background.js"
+      "scripts":[ "background.js" ]
     }
   }
   
